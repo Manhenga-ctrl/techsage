@@ -1,0 +1,50 @@
+# Python bytecode
+*.pyc
+*.pyo
+__pycache__/
+
+# Virtual environments
+env/
+venv/
+ENV/
+.venv/
+
+# Django database
+*.sqlite3
+db.sqlite3
+
+# Django static and media files
+staticfiles/
+media/
+
+# Environment variables
+.env
+
+# Logs
+*.log
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary / backup files
+*.bak
+*.swp
+~*
+
+# Coverage reports
+htmlcov/
+.coverage
+
+# Pytest cache
+.pytest_cache/
+
+# Migrations (optional, track if needed)
+# */migrations/*.py
+# */migrations/*.pyc
