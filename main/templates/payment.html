@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WIFI PAYMENT PORTAL</title>
+
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        line-height: 1.6;
+        position: relative;
+    }
+
+    body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 240px;
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+        z-index: -1;
+        border-radius: 0 0 40% 40%;
+    }
+
+    .container {
+        background: white;
+        border-radius: 24px;
+        box-shadow: 
+            0 10px 40px rgba(0, 0, 0, 0.08),
+            0 20px 80px rgba(2, 132, 199, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        max-width: 480px;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+    }
+
+    .container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #0284c7, #38bdf8, #0284c7);
+        background-size: 200% 100%;
+        animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+    }
+
+    .header {
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+        color: white;
+        padding: 40px 32px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .header::after {
+        content: '';
+        position: absolute;
+        bottom: -60px;
+        left: -20px;
+        right: -20px;
+        height: 120px;
+        background: white;
+        transform: rotate(3deg);
+        z-index: 1;
+    }
+
+    .header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        letter-spacing: -0.3px;
+        position: relative;
+        z-index: 2;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .header p {
+        opacity: 0.95;
+        font-size: 15px;
+        font-weight: 400;
+        position: relative;
+        z-index: 2;
+        max-width: 300px;
+        margin: 0 auto;
+        line-height: 1.5;
+    }
+
+    .form-container {
+        padding: 40px 32px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .form-group {
+        margin-bottom: 28px;
+        position: relative;
+    }
+
+    label {
+        display: block;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 10px;
+        font-size: 14px;
+        letter-spacing: 0.3px;
+        transition: color 0.3s ease;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+        width: 100%;
+        padding: 16px 20px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: #f8fafc;
+        color: #1e293b;
+        font-weight: 500;
+    }
+
+    input[type="text"]:hover,
+    input[type="number"]:hover,
+    select:hover {
+        border-color: #cbd5e1;
+        background: white;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    select:focus {
+        outline: none;
+        border-color: #0284c7;
+        background: white;
+        box-shadow: 
+            0 0 0 4px rgba(2, 132, 199, 0.1),
+            0 4px 12px rgba(2, 132, 199, 0.08);
+        transform: translateY(-1px);
+    }
+
+    select {
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 16px center;
+        background-size: 20px;
+        padding-right: 52px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 18px;
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 17px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        margin-top: 12px;
+        position: relative;
+        overflow: hidden;
+        letter-spacing: 0.5px;
+        box-shadow: 0 6px 20px rgba(2, 132, 199, 0.3);
+    }
+
+    .submit-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.7s ease;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 
+            0 12px 30px rgba(2, 132, 199, 0.4),
+            0 4px 8px rgba(2, 132, 199, 0.2);
+    }
+
+    .submit-btn:hover::before {
+        left: 100%;
+    }
+
+    .submit-btn:active {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
+    }
+
+    .submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none !important;
+        box-shadow: 0 2px 10px rgba(2, 132, 199, 0.2) !important;
+    }
+
+    .result {
+        margin-top: 28px;
+        padding: 20px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        text-align: center;
+        display: none;
+        animation: fadeIn 0.5s ease-out;
+        border: 1px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .result::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: currentColor;
+        opacity: 0.3;
+    }
+
+    .result.success {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        color: #166534;
+        border-color: #86efac;
+        display: block;
+    }
+
+    .result.error {
+        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        color: #991b1b;
+        border-color: #fca5a5;
+        display: block;
+    }
+
+    .result.processing {
+        background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+        color: #854d0e;
+        border-color: #fcd34d;
+        display: block;
+    }
+
+    .loading-spinner {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 0.8s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        margin-left: 10px;
+        vertical-align: middle;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .security-badge {
+        text-align: center;
+        padding: 20px;
+        color: #64748b;
+        font-size: 14px;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-top: 1px solid rgba(226, 232, 240, 0.8);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .security-badge::before {
+        content: '🔒';
+        font-size: 16px;
+    }
+
+    @media (max-width: 768px) {
+        body::before {
+            height: 200px;
+            border-radius: 0 0 30% 30%;
+        }
+
+        .container {
+            border-radius: 20px;
+            max-width: 100%;
+        }
+
+        .header {
+            padding: 32px 24px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+        }
+
+        .header p {
+            font-size: 14px;
+        }
+
+        .form-container {
+            padding: 32px 24px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            padding: 14px 18px;
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            padding: 16px;
+            font-size: 16px;
+        }
+
+        .result {
+            padding: 18px;
+            font-size: 14px;
+        }
+
+        .security-badge {
+            padding: 16px;
+            font-size: 13px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        body {
+            padding: 16px;
+        }
+
+        body::before {
+            height: 180px;
+            border-radius: 0 0 25% 25%;
+        }
+
+        .container {
+            border-radius: 18px;
+        }
+
+        .header {
+            padding: 28px 20px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .form-container {
+            padding: 28px 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .header h1 {
+            font-size: 20px;
+        }
+        
+        .form-container {
+            padding: 24px 16px;
+        } 
+    }
+</style>
+  
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>WIFI ECOCASH PAYMENT PORTAL</h1>
+            <p>Select your data package and complete payment</p>
+        </div>
+
+        <div class="form-container">
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input
+                        type="text"
+                        id="phone"
+                        placeholder="0771231234"
+                        pattern="0[0-9]{9}"
+                        title="Please enter a valid phone number (e.g., 0771231234)"
+                        required
+                    >
+                </div>
+<div class="form-group">
+    <label for="package">Select Package</label>
+    <select id="package" name="package" required>
+        <option value="" disabled selected>Choose a package...</option>
+        {% for package in packages %}
+            <option value="{{ package.package }}">{{ package.package }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Pay Now
+                </button>
+
+                <div id="result" class="result"></div>
+            </form>
+        </div>
+
+        <div class="security-badge">
+            🔒 Secured by EcoCash Payment Gateway
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById("paymentForm");
+        const submitBtn = document.getElementById("submitBtn");
+        const resultDiv = document.getElementById("result");
+
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            // Get form values
+            const phone = document.getElementById("phone").value;
+            const packageSelected = document.getElementById("package").value;
+
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Processing<span class="loading-spinner"></span>';
+
+            resultDiv.className = "result processing";
+            resultDiv.textContent = "Processing your payment request...";
+
+            // Send payment request
+            fetch("/api/payment/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    customerMsisdn: phone,
+                    package: packageSelected,
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Pay Now';
+
+                if(data.success) {
+                    resultDiv.className = "result success";
+                    resultDiv.textContent = "✓ Payment request sent successfully";
+
+                    // Wait 10 seconds before showing voucher
+                    setTimeout(() => {
+                        if(data.voucher) {
+                            resultDiv.textContent = "✓ Your Voucher Code: " + data.voucher;
+
+                            // Optional: Create a more elegant alert/modal
+                            alert("🎉 Your Voucher Code: " + data.voucher);
+                        } else {
+                            resultDiv.textContent = "✓ Payment request sent. Your voucher will be delivered shortly.";
+                        }
+                    }, 35000);
+
+                } else {
+                    resultDiv.className = "result error";
+                    resultDiv.textContent = "✗ " + (data.error || "Payment failed. Please try again.");
+                }
+            })
+            .catch(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Pay Now';
+                resultDiv.className = "result error";
+                resultDiv.textContent = "✗ Network error. Please check your connection and try again.";
+            });
+        });
+    </script>
+</body>
+</html>

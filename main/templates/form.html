@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voucher Management - HPE</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #425563;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background-color: #01A982;
+            color: white;
+            padding: 1.25rem 0; /* slightly slimmer header */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            max-width: 800px;  /* same as container width */
+            margin: 0 auto;    /* center the header */
+            padding: 0 1rem;   /* small inner padding */
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* ===== NAVIGATION ===== */
+        nav {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            border-bottom: 2px solid white;
+            opacity: 0.9;
+        }
+
+        /* ===== LAYOUT ===== */
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h2 {
+            color: #425563;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            border-bottom: 3px solid #01A982;
+            padding-bottom: 0.5rem;
+        }
+
+        /* ===== INFO BOX ===== */
+        .format-info {
+            background-color: #f0fdf9;
+            border-left: 4px solid #01A982;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .format-info h3 {
+            color: #01A982;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .format-info ul {
+            margin-left: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .format-info code {
+            background-color: #e5e7eb;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .example-box {
+            background-color: #425563;
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        /* ===== FORM ===== */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group input[type="file"]:focus {
+            outline: none;
+            border-color: #01A982;
+        }
+
+        button[type="submit"] {
+            background-color: #01A982;
+            color: white;
+            padding: 0.875rem 2rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #018c6f;
+        }
+
+        /* ===== MESSAGES ===== */
+        .message {
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        .message.success {
+            background-color: #f0fdf9;
+            border-left: 4px solid #01A982;
+            color: #01A982;
+        }
+
+        .message.error {
+            background-color: #fef2f2;
+            border-left: 4px solid #dc2626;
+            color: #dc2626;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <div class="header-content">
+            <!-- Logo / Title -->
+            <div>
+            
+               
+            </div>
+
+            <!-- Navigation Links -->
+            <nav>
+                <a href="/upload-vouchers" class="nav-link">UPLOAD VOUCHER</a>
+                <a href="/vouchers" class="nav-link">VOUCHER LIST</a>
+
+                <a href="" class="nav-link">SYNC MIKROTIK</a>
+                <a href="" class="nav-link">DASHBOARD</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- ===== CONTENT ===== -->
+    <div class="container">
+
+        <!-- CSV FORMAT INFO -->
+        <div class="card">
+            <h2>CSV Format Requirements</h2>
+            <div class="format-info">
+                <h3>Required CSV Structure:</h3>
+                <ul>
+                    <li>File must be in <code>.csv</code> format</li>
+                    <li>First row must contain column headers</li>
+                    <li>Required columns: <code>VOUCHER_CODE</code>, <code>PACKAGES</code></li>
+                    <li>Packages allowed: <code>1GB</code>, <code>5GB</code></li>
+                </ul>
+
+                <div class="example-box">
+VOUCHER_CODE,PACKAGES
+VCH001,1GB
+VCH002,5GB
+VCH003,1GB
+                </div>
+            </div>
+        </div>
+
+        <!-- UPLOAD FORM -->
+        <div class="card">
+            <h2>Upload Voucher CSV</h2>
+
+            {% if message %}
+                <div class="message {{ message_type }}">
+                    {{ message }}
+                </div>
+            {% endif %}
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Select CSV File</label>
+                    {{ form.as_p }}
+                </div>
+                <button type="submit">Upload Vouchers</button>
+            </form>
+        </div>
+
+    </div>
+
+</body>
+</html>
