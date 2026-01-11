@@ -3,57 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
+            font-family: "Georgia", "Times New Roman", serif;
+            background: #f3f7f5;
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            height: 100vh;
+            justify-content: center;
+            padding: 20px;
+            color: #1f2d2a;
         }
 
         .login-box {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
+            background: #fffefb;
             width: 320px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            padding: 28px 24px;
+            border: 2px solid #6ea79a;
+            border-radius: 6px;
+            box-shadow: 4px 4px 0 #6ea79a;
         }
 
         h2 {
             text-align: center;
-            color: #01A982;
-            margin-bottom: 1rem;
+            color: #046c4e;
+            font-size: 22px;
+            letter-spacing: 1px;
+            margin-bottom: 18px;
+        }
+
+        .error {
+            background: #fef2f2;
+            border: 2px solid #991b1b;
+            color: #7f1d1d;
+            padding: 10px;
+            font-size: 14px;
+            margin-bottom: 16px;
+            text-align: center;
         }
 
         input {
             width: 100%;
             padding: 10px;
-            margin-bottom: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            margin-bottom: 16px;
+            border: 2px solid #8fbfb2;
+            background: #f9fdfb;
+            font-family: "Georgia", serif;
+            font-size: 15px;
+            color: #1f2d2a;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #046c4e;
+            background: #ffffff;
         }
 
         button {
             width: 100%;
-            padding: 10px;
-            background: #01A982;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-weight: 600;
+            padding: 12px;
+            background: #046c4e;
+            color: #ffffff;
+            border: 2px solid #034f39;
+            font-family: "Georgia", serif;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
         }
 
         button:hover {
-            background: #018c6f;
+            background: #03543f;
         }
 
-        .error {
-            color: #dc2626;
-            text-align: center;
-            margin-bottom: 1rem;
+        @media (max-width: 480px) {
+            .login-box {
+                width: 100%;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
         }
     </style>
 </head>
