@@ -1,168 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transaction List</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HPE WiFi Portal – Packages</title>
 
-    <style>
-        /* ===== CSS — UNCHANGED ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f2f2f2;
+        color: #2f3e46;
+    }
 
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: #f5f5f5; 
-            color: #425563;
-        }
+    /* ================= HEADER ================= */
+    .site-header {
+        background: #0f766e;
+        border-bottom: 3px solid #065f5b;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
 
-        .site-header {
-            background: linear-gradient(135deg, #01a982 0%, #008567 100%);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+    .site-nav {
+        max-width: 1200px;
+        margin: auto;
+        padding: 14px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-        .site-nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 16px 32px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    .site-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+    }
 
-        .site-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: white;
-            text-decoration: none;
-            font-size: 20px;
-            font-weight: 700;
-        }
+    .logo-icon {
+        width: 34px;
+        height: 34px;
+        background: #ffffff;
+        color: #0f766e;
+        border: 2px solid #065f5b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: bold;
+    }
 
-        .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: white;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 700;
-            color: #01a982;
-        }
+    .nav-links {
+        display: flex;
+        gap: 18px;
+    }
 
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            align-items: center;
-        }
+    .nav-links a {
+        color: #e6fffa;
+        text-decoration: none;
+        font-size: 13px;
+    }
 
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-        }
+    .nav-links a:hover {
+        text-decoration: underline;
+    }
 
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-        }
+    .menu-toggle { display: none; }
 
-        .main-container {
-            padding: 2rem;
-        }
+    /* ================= MAIN ================= */
+    .main-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 1rem;
+    }
 
-        h1 {
-            text-align: center;
+    h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #0f766e;
+        letter-spacing: 1px;
+    }
+
+    .controls {
+        max-width: 1100px;
+        margin: 0 auto 1.5rem auto;
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .controls input,
+    .controls select {
+        padding: 10px 14px;
+        border: 1px solid #999;
+        border-radius: 4px;
+        font-size: 14px;
+        width: 100%;
+        max-width: 220px;
+    }
+
+    /* ================= TABLE ================= */
+    table {
+        width: 100%;
+        max-width: 1100px;
+        margin: auto;
+        border-collapse: collapse;
+        background: #ffffff;
+        border: 1px solid #999;
+        border-radius: 8px;
+        font-size: 13px;
+    }
+
+    th, td {
+        border: 1px solid #999;
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background: #0f766e;
+        color: #ffffff;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    tr:nth-child(even) {
+        background: #f4fdfc;
+    }
+
+    tr:hover {
+        background: #e6f7f5;
+    }
+
+    .delete-btn {
+        background: #dc2626;
+        color: #fff;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+    }
+
+    .delete-btn:hover {
+        background: #b91c1c;
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 768px) {
+        table, thead, tbody, th, td, tr { display: block; }
+        thead { display: none; }
+
+        tr {
             margin-bottom: 1rem;
-            color: #01A982;
-        }
-
-        .controls {
-            max-width: 1100px;
-            margin: 0 auto 1.5rem auto;
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-        .controls input,
-        .controls select {
-            padding: 0.5rem 1rem;
-            font-size: 0.95rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 100%;
-            max-width: 220px;
-        }
-
-        table { 
-            border-collapse: collapse; 
-            width: 100%; 
-            max-width: 1100px;
-            margin: 0 auto; 
-            background: white; 
+            border: 1px solid #999;
             border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 0.5rem;
         }
 
-        th, td { 
-            border: 1px solid #ddd; 
-            padding: 12px; 
-            text-align: center; 
-            font-size: 0.95rem;
+        td {
+            border: none;
+            text-align: right;
+            position: relative;
+            padding: 6px 0;
         }
 
-        th { 
-            background-color: #01A982; 
-            color: white; 
+        td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            text-align: left;
         }
-
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        tr:hover { background-color: #e0f7f1; }
-
-        @media (max-width: 768px) {
-            table, thead, tbody, th, td, tr { display: block; }
-            thead { display: none; }
-
-            tr {
-                margin-bottom: 1rem;
-                border: 1px solid #ccc;
-                border-radius: 8px;
-                padding: 0.5rem;
-            }
-
-            td {
-                border: none;
-                padding: 0.5rem 0;
-                text-align: right;
-                position: relative;
-            }
-
-            td::before {
-                content: attr(data-label);
-                position: absolute;
-                left: 0;
-                width: 50%;
-                font-weight: 600;
-                text-align: left;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 
 <body>
@@ -176,10 +192,10 @@
 
         <div class="nav-links" id="navLinks">
             <a href="/dashboard">Dashboard</a>
-            <a href="/packages">Available Packages</a>
+            <a href="/packages">Packages</a>
             <a href="/transactions">Transactions</a>
             <a href="/vouchers">Vouchers</a>
-            <a href="/account">My Account</a>
+            <a href="/account">Account</a>
             <a href="/support">Support</a>
             <a href="/settings">Settings</a>
             <a href="/logout">Logout</a>
@@ -194,7 +210,7 @@
 
     <!-- FILTERS -->
     <div class="controls">
-        <input type="text" id="searchVoucher" placeholder="Search Packages..." onkeyup="filterTable()">
+        <input type="text" id="searchPackage" placeholder="Search Packages..." onkeyup="filterTable()">
 
         <select id="packageFilter" onchange="filterTable()">
             <option value="">All Packages</option>
@@ -205,7 +221,7 @@
     </div>
 
     <!-- TABLE -->
-    <table id="voucherTable">
+    <table id="packageTable">
         <thead>
             <tr>
                 <th>Amount</th>
@@ -217,15 +233,13 @@
         <tbody>
         {% for package in packages %}
             <tr>
-                <td data-label="Voucher Code">{{ package.amount }}</td>
+                <td data-label="Amount">{{ package.amount }}</td>
                 <td data-label="Package">{{ package.package }}</td>
                 <td data-label="Created At">{{ package.created_at|date:"Y-m-d H:i" }}</td>
                 <td data-label="Action">
                     <form method="post" action="{% url 'delete_package' package.id %}">
                         {% csrf_token %}
-                        <button type="submit" style="background:#dc2626;color:white;border:none;padding:5px 10px;border-radius:4px;">
-                            Delete
-                        </button>
+                        <button type="submit" class="delete-btn">Delete</button>
                     </form>
                 </td>
             </tr>
@@ -244,19 +258,17 @@
         document.getElementById("navLinks").classList.toggle("active");
     };
 
-    // Filter function (updated)
+    // Filter table
     function filterTable() {
-        const voucher = document.getElementById("searchVoucher").value.toUpperCase();
-        const pkg = document.getElementById("packageFilter").value.toUpperCase();
+        const search = document.getElementById("searchPackage").value.toUpperCase();
+        const filter = document.getElementById("packageFilter").value.toUpperCase();
 
-        document.querySelectorAll("#voucherTable tbody tr").forEach(row => {
-            const voucherCode = row.cells[0].innerText.toUpperCase();
-            const packageName = row.cells[1].innerText.toUpperCase();
-
-            row.style.display =
-                voucherCode.includes(voucher) &&
-                (pkg === "" || packageName === pkg)
-                ? "" : "none";
+        document.querySelectorAll("#packageTable tbody tr").forEach(row => {
+            const amount = row.cells[0].innerText.toUpperCase();
+            const pkg = row.cells[1].innerText.toUpperCase();
+            const show = (amount.includes(search) || pkg.includes(search)) &&
+                         (filter === "" || pkg === filter);
+            row.style.display = show ? "" : "none";
         });
     }
 </script>
