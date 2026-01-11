@@ -1,307 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HPE WiFi Voucher Management</title>
+{% extends "base.html" %}
+{% block title %}Voucher List - HPE WiFi Portal{% endblock %}
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+{% block content %}
+<h1>Voucher List</h1>
 
-        body { 
-            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
-            background: #f2f2f2;
-            color: #2f3e46;
-        }
+<!-- ===== Controls ===== -->
+<div class="controls">
+    <input type="text" id="searchInput" placeholder="Search Voucher Code..." onkeyup="filterTable()">
 
-        /* ================= HEADER ================= */
-        .site-header {
-            background: #0f766e;
-            border-bottom: 3px solid #065f5b;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .site-nav {
-            max-width: 1200px;
-            margin: auto;
-            padding: 14px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .site-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
-
-        .logo-icon {
-            width: 34px;
-            height: 34px;
-            background: #ffffff;
-            color: #0f766e;
-            border: 2px solid #065f5b;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 22px;
-        }
-
-        .nav-links a {
-            color: #e6fffa;
-            text-decoration: none;
-            font-size: 13px;
-        }
-
-        .nav-links a:hover {
-            text-decoration: underline;
-        }
-
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        /* ================= MAIN ================= */
-        .main-container {
-            padding: 1.8rem;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 20px;
-            margin-bottom: 1rem;
-            color: #0f766e;
-            letter-spacing: 1px;
-        }
-
-        /* ================= CONTROLS ================= */
-        .controls {
-            max-width: 900px;
-            margin: 0 auto 1.2rem;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-        .controls input,
-        .controls select {
-            padding: 8px 10px;
-            font-size: 13px;
-            border: 1px solid #999;
-            background: #ffffff;
-            width: 100%;
-            max-width: 220px;
-        }
-
-        /* ================= TABLE ================= */
-        table {
-            width: 100%;
-            max-width: 900px;
-            margin: auto;
-            border-collapse: collapse;
-            background: #ffffff;
-            border: 1px solid #999;
-        }
-
-        th, td {
-            border: 1px solid #999;
-            padding: 10px;
-            font-size: 13px;
-            text-align: center;
-        }
-
-        th {
-            background: #0f766e;
-            color: white;
-            font-weight: bold;
-        }
-
-        tr:nth-child(even) {
-            background: #f4fdfc;
-        }
-
-        /* ================= BUTTONS ================= */
-        .delete-btn {
-            background: #7f1d1d;
-            color: white;
-            border: 1px solid #5f1414;
-            padding: 4px 10px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-
-        .delete-btn:hover {
-            background: #991b1b;
-        }
-
-        /* ================= RESPONSIVE ================= */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 60px;
-                left: 0;
-                right: 0;
-                background: #0f766e;
-                flex-direction: column;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links a {
-                padding: 14px 24px;
-                border-top: 1px solid #065f5b;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .controls {
-                flex-direction: column;
-            }
-
-            table, thead, tbody, th, td, tr {
-                display: block;
-            }
-
-            thead {
-                display: none;
-            }
-
-            tr {
-                border: 1px solid #999;
-                margin-bottom: 12px;
-                padding: 6px;
-            }
-
-            td {
-                border: none;
-                text-align: right;
-                position: relative;
-                padding: 6px 0;
-            }
-
-            td::before {
-                content: attr(data-label);
-                position: absolute;
-                left: 0;
-                font-weight: bold;
-                text-align: left;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-<header class="site-header">
-    <nav class="site-nav">
-        <a href="/dashboard" class="site-logo">
-            <div class="logo-icon">HPE</div>
-            <span>HPE WiFi Portal</span>
-        </a>
-
-        <div class="nav-links" id="navLinks">
-            <a href="/dashboard">Dashboard</a>
-            <a href="/packages">Packages</a>
-            <a href="/transactions">Transactions</a>
-            <a href="/vouchers">Vouchers</a>
-            <a href="/account">Account</a>
-            <a href="/logout">Logout</a>
-        </div>
-
-        <button class="menu-toggle" id="menuToggle">☰</button>
-    </nav>
-</header>
-
-<div class="main-container">
-    <h1>VOUCHER LIST</h1>
-
-    <div class="controls">
-        <input type="text" id="searchInput" placeholder="Search Voucher Code..." onkeyup="filterTable()">
-
-        <select id="packageFilter" onchange="filterTable()">
-            <option value="">All Packages</option>
-            {% for package in packages %}
-                <option value="{{ package.package }}">{{ package.package }}</option>
-            {% endfor %}
-        </select>
-
-        <select id="usedFilter" onchange="filterTable()">
-            <option value="">All Status</option>
-            <option value="Yes">Used</option>
-            <option value="No">Unused</option>
-        </select>
-    </div>
-
-    <table id="voucherTable">
-        <thead>
-            <tr>
-                <th>Voucher Code</th>
-                <th>Package</th>
-                <th>Created At</th>
-                <th>Used</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for voucher in vouchers %}
-            <tr>
-                <td data-label="Voucher Code">{{ voucher.voucher_code }}</td>
-                <td data-label="Package">{{ voucher.package }}</td>
-                <td data-label="Created At">{{ voucher.created_at|date:"Y-m-d H:i" }}</td>
-                <td data-label="Used">{{ voucher.used|yesno:"Yes,No" }}</td>
-                <td data-label="Action">
-                    <form method="post" action="{% url 'delete_voucher' voucher.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="delete-btn">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        {% empty %}
-            <tr>
-                <td colspan="5">No vouchers found.</td>
-            </tr>
+    <select id="packageFilter" onchange="filterTable()">
+        <option value="">All Packages</option>
+        {% for package in packages %}
+            <option value="{{ package.package }}">{{ package.package }}</option>
         {% endfor %}
-        </tbody>
-    </table>
+    </select>
+
+    <select id="usedFilter" onchange="filterTable()">
+        <option value="">All Status</option>
+        <option value="Yes">Used</option>
+        <option value="No">Unused</option>
+    </select>
 </div>
 
+<!-- ===== Voucher Table ===== -->
+<table id="voucherTable">
+    <thead>
+        <tr>
+            <th>Voucher Code</th>
+            <th>Package</th>
+            <th>Created At</th>
+            <th>Used</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for voucher in vouchers %}
+        <tr>
+            <td data-label="Voucher Code">{{ voucher.voucher_code }}</td>
+            <td data-label="Package">{{ voucher.package }}</td>
+            <td data-label="Created At">{{ voucher.created_at|date:"Y-m-d H:i" }}</td>
+            <td data-label="Used">{{ voucher.used|yesno:"Yes,No" }}</td>
+            <td data-label="Action">
+                <form method="post" action="{% url 'delete_voucher' voucher.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-btn">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No vouchers found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 <script>
-    const menuToggle = document.getElementById("menuToggle");
-    const navLinks = document.getElementById("navLinks");
-
-    menuToggle.addEventListener("click", () => {
-        navLinks.classList.toggle("active");
-    });
-
+    // ===== Filter Function =====
     function filterTable() {
         const search = document.getElementById("searchInput").value.toUpperCase();
         const pkg = document.getElementById("packageFilter").value;
@@ -327,6 +82,4 @@
         });
     }
 </script>
-
-</body>
-</html>
+{% endblock %}
