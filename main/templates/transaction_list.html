@@ -1,324 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transaction List</title>
-    <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+{% extends "base.html" %}
+{% block title %}Transaction List - HPE WiFi Portal{% endblock %}
+
+{% block content %}
+<h1>TRANSACTION LIST</h1>
+
+<!-- ===== Filters ===== -->
+<div class="controls">
+    <input type="text" id="searchRef" placeholder="Search Reference..." onkeyup="filterTable()">
+    <input type="text" id="searchMsisdn" placeholder="Search MSISDN..." onkeyup="filterTable()">
+
+    <select id="packageFilter" onchange="filterTable()">
+        <option value="">All Packages</option>
+        <option value="1GB Daily - $1">1GB Daily - $1</option>
+        <option value="5GB Weekly - $3">5GB Weekly - $3</option>
+        <option value="10GB Monthly - $5">10GB Monthly - $5</option>
+        <option value="50GB Monthly - $15">50GB Monthly - $15</option>
+        <option value="100GB Monthly - $25">100GB Monthly - $25</option>
+    </select>
+
+    <select id="statusFilter" onchange="filterTable()">
+        <option value="">All Status</option>
+        <option value="SUCCESS">SUCCESS</option>
+        <option value="PENDING">PENDING</option>
+        <option value="FAILED">FAILED</option>
+        <option value="NULL">NULL</option>
+    </select>
+</div>
+
+<!-- ===== Table ===== -->
+<table id="transactionTable">
+    <thead>
+        <tr>
+            <th>Reference</th>
+            <th>MSISDN</th>
+            <th>Package</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Time</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tx in transactions %}
+        <tr>
+            <td data-label="Reference">{{ tx.source_reference }}</td>
+            <td data-label="MSISDN">{{ tx.customer_msisdn }}</td>
+            <td data-label="Package">{{ tx.package }}</td>
+            <td data-label="Amount">{{ tx.currency }} {{ tx.amount }}</td>
+            <td data-label="Status" class="{% if tx.status == 'SUCCESS' %}status-success{% elif tx.status == 'PENDING' %}status-pending{% elif tx.status == 'FAILED' %}status-failed{% else %}status-null{% endif %}">
+                {{ tx.status|default:"NULL" }}
+            </td>
+            <td data-label="Time">{{ tx.timestamp|date:"Y-m-d H:i" }}</td>
+            <td data-label="Action">
+                <form method="post" action="{% url 'delete_transaction' tx.source_reference %}" onsubmit="return confirm('Are you sure you want to delete this transaction?');">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7">No transactions found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- ===== JS Filter ===== -->
+<script>
+function filterTable() {
+    const ref = document.getElementById("searchRef").value.toUpperCase();
+    const msisdn = document.getElementById("searchMsisdn").value.toUpperCase();
+    const pkg = document.getElementById("packageFilter").value.toUpperCase();
+    const status = document.getElementById("statusFilter").value.toUpperCase();
+
+    document.querySelectorAll("#transactionTable tbody tr").forEach(row => {
+        const r = row.cells[0].innerText.toUpperCase();
+        const m = row.cells[1].innerText.toUpperCase();
+        const p = row.cells[2].innerText.toUpperCase();
+        const s = row.cells[4].innerText.toUpperCase();
+
+        row.style.display =
+            r.includes(ref) &&
+            m.includes(msisdn) &&
+            (pkg === "" || p === pkg) &&
+            (status === "" || s === status)
+            ? "" : "none";
+    });
 }
-
-body {
-    font-family: "Georgia", "Times New Roman", serif;
-    background: #f3f7f5;
-    color: #1f2d2a;
-}
-
-/* ===== Header ===== */
-.site-header {
-    background: #046c4e;
-    border-bottom: 3px solid #034f39;
-}
-
-.site-nav {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 16px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.site-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
-.logo-icon {
-    width: 36px;
-    height: 36px;
-    background: #fffefb;
-    border: 2px solid #6ea79a;
-    color: #046c4e;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.nav-links {
-    display: flex;
-    gap: 24px;
-}
-
-.nav-links a {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 14px;
-}
-
-.nav-links a:hover {
-    text-decoration: underline;
-}
-
-.menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: white;
-}
-
-/* ===== Main ===== */
-.main-container {
-    padding: 2rem 1rem;
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #046c4e;
-    letter-spacing: 2px;
-}
-
-/* ===== Filters ===== */
-.controls {
-    max-width: 1100px;
-    margin: 0 auto 1.5rem;
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.controls input,
-.controls select {
-    padding: 8px 10px;
-    border: 2px solid #8fbfb2;
-    background: #f9fdfb;
-    font-family: "Georgia", serif;
-    font-size: 14px;
-}
-
-.controls input:focus,
-.controls select:focus {
-    outline: none;
-    border-color: #046c4e;
-}
-
-/* ===== Table ===== */
-table {
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-    border-collapse: collapse;
-    background: #fffefb;
-    border: 2px solid #6ea79a;
-}
-
-th {
-    background: #046c4e;
-    color: white;
-    padding: 12px;
-    font-size: 14px;
-    border: 1px solid #034f39;
-}
-
-td {
-    padding: 10px;
-    border: 1px solid #d1e3dd;
-    font-size: 14px;
-    text-align: center;
-}
-
-tr:nth-child(even) {
-    background: #f1f8f6;
-}
-
-/* ===== Status ===== */
-.status-success { color: #065f46; font-weight: bold; }
-.status-pending { color: #92400e; font-weight: bold; }
-.status-failed  { color: #7f1d1d; font-weight: bold; }
-.status-null    { color: #6b7280; font-weight: bold; }
-
-/* ===== Delete Button ===== */
-button {
-    padding: 6px 10px;
-    background: #7f1d1d;
-    color: white;
-    border: 2px solid #5f1515;
-    font-family: "Georgia", serif;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #991b1b;
-}
-
-/* ===== Mobile ===== */
-@media (max-width: 768px) {
-    .nav-links {
-        display: none;
-        flex-direction: column;
-        background: #046c4e;
-        position: absolute;
-        top: 64px;
-        left: 0;
-        right: 0;
-    }
-
-    .nav-links.active {
-        display: flex;
-    }
-
-    .menu-toggle {
-        display: block;
-    }
-
-    table, thead, tbody, th, td, tr {
-        display: block;
-    }
-
-    thead {
-        display: none;
-    }
-
-    tr {
-        margin-bottom: 1rem;
-        border: 2px solid #6ea79a;
-        padding: 8px;
-        background: #fffefb;
-    }
-
-    td {
-        border: none;
-        text-align: right;
-        position: relative;
-        padding-left: 50%;
-    }
-
-    td::before {
-        content: attr(data-label);
-        position: absolute;
-        left: 10px;
-        font-weight: bold;
-    }
-}
-</style>
-
-</head>
-<body>
-    <!-- Header Navigation -->
-    <header class="site-header">
-        <nav class="site-nav">
-            <a href="/dashboard" class="site-logo">
-                <div class="logo-icon">HPE</div>
-                <span>HPE WiFi Portal</span>
-            </a>
-
-            <div class="nav-links" id="navLinks">
-                <a href="/dashboard">Dashboard</a>
-                <a href="/packages">Available Packages</a>
-                <a href="/transactions">Transactions</a>
-                <a href="/vouchers">Vouchers</a>
-                <a href="/account">My Account</a>
-                <a href="/support">Support</a>
-                <a href="/settings">Settings</a>
-                <a href="/logout">Logout</a>
-            </div>
-
-            <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
-                ☰
-            </button>
-        </nav>
-    </header>
-
-    <!-- Main Content -->
-    <div class="main-container">
-        <h1>TRANSACTION LIST</h1>
-
-        <!-- ===== Filters ===== -->
-        <div class="controls">
-            <input type="text" id="searchRef" placeholder="Search Reference..." onkeyup="filterTable()">
-            <input type="text" id="searchMsisdn" placeholder="Search MSISDN..." onkeyup="filterTable()">
-
-            <select id="packageFilter" onchange="filterTable()">
-                <option value="">All Packages</option>
-                <option value="1GB Daily - $1">1GB Daily - $1</option>
-                <option value="5GB Weekly - $3">5GB Weekly - $3</option>
-                <option value="10GB Monthly - $5">10GB Monthly - $5</option>
-                <option value="50GB Monthly - $15">50GB Monthly - $15</option>
-                <option value="100GB Monthly - $25">100GB Monthly - $25</option>
-            </select>
-
-            <select id="statusFilter" onchange="filterTable()">
-                <option value="">All Status</option>
-                <option value="SUCCESS">SUCCESS</option>
-                <option value="PENDING">PENDING</option>
-                <option value="FAILED">FAILED</option>
-                <option value="NULL">NULL</option>
-            </select>
-        </div>
-
-        <!-- ===== Table ===== -->
-        <table id="transactionTable"> <thead> <tr> <th>Reference</th> <th>MSISDN</th> <th>Package</th> <th>Amount</th> <th>Status</th> <th>Time</th> <th>Action</th> </tr> </thead> <tbody> {% for tx in transactions %} <tr> <td data-label="Reference">{{ tx.source_reference }}</td> <td data-label="MSISDN">{{ tx.customer_msisdn }}</td> <td data-label="Package">{{ tx.package }}</td> <td data-label="Amount">{{ tx.currency }} {{ tx.amount }}</td> <td data-label="Status" class=" {% if tx.status == 'SUCCESS' %}status-success{% endif %} {% if tx.status == 'PENDING' %}status-pending{% endif %} {% if tx.status == 'FAILED' %}status-failed{% endif %} {% if tx.status == 'NULL' or not tx.status %}status-null{% endif %} "> {{ tx.status|default:"NULL" }} </td> <td data-label="Time">{{ tx.timestamp|date:"Y-m-d H:i" }}</td> <td data-label="Action"> <form method="post" action="{% url 'delete_transaction' tx.source_reference %}" onsubmit="return confirm('Are you sure you want to delete this transaction?');"> {% csrf_token %} <button type="submit">Delete</button> </form> </td> </tr> {% empty %} <tr> <td colspan="7">No transactions found.</td> </tr> {% endfor %} </tbody> </table>
-        </table>
-    </div>
-
-    <!-- ===== JS Filter ===== -->
-    <script>
-        // Mobile menu toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.site-nav')) {
-                navLinks.classList.remove('active');
-            }
-        });
-
-        // Filter table function
-        function filterTable() {
-            const ref = document.getElementById("searchRef").value.toUpperCase();
-            const msisdn = document.getElementById("searchMsisdn").value.toUpperCase();
-            const pkg = document.getElementById("packageFilter").value.toUpperCase();
-            const status = document.getElementById("statusFilter").value.toUpperCase();
-
-            document.querySelectorAll("#transactionTable tbody tr").forEach(row => {
-                const r = row.cells[0].innerText.toUpperCase();
-                const m = row.cells[1].innerText.toUpperCase();
-                const p = row.cells[2].innerText.toUpperCase();
-                const s = row.cells[4].innerText.toUpperCase();
-
-                row.style.display =
-                    r.includes(ref) &&
-                    m.includes(msisdn) &&
-                    (pkg === "" || p === pkg) &&
-                    (status === "" || s === status)
-                    ? "" : "none";
-            });
-        }
-
-        // Delete transaction function
-        function deleteTransaction(reference) {
-            if (confirm('Are you sure you want to delete this transaction?')) {
-                alert('Transaction ' + reference + ' deleted successfully.');
-            }
-        }
-    </script>
-
-</body>
-</html>
+</script>
+{% endblock %}
