@@ -73,7 +73,7 @@ WSGI_APPLICATION = 'techsage.wsgi.application'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  # Add custom template directories if needed
+        'DIRS': [BASE_DIR / "templates"],  # Add custom template directories if needed
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
