@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HPE WiFi Voucher Management</title>
+
     <style>
         * {
             margin: 0;
@@ -12,15 +13,15 @@
         }
 
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: #f5f5f5; 
-            color: #425563;
+            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+            background: #f2f2f2;
+            color: #2f3e46;
         }
 
-        /* Header Navigation */
+        /* ================= HEADER ================= */
         .site-header {
-            background: linear-gradient(135deg, #01a982 0%, #008567 100%);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: #0f766e;
+            border-bottom: 3px solid #065f5b;
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -28,53 +29,50 @@
 
         .site-nav {
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 16px 32px;
+            margin: auto;
+            padding: 14px 24px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
         }
 
         .site-logo {
             display: flex;
             align-items: center;
-            gap: 12px;
-            color: white;
+            gap: 10px;
+            color: #ffffff;
             text-decoration: none;
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
         }
 
         .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: white;
-            border-radius: 8px;
+            width: 34px;
+            height: 34px;
+            background: #ffffff;
+            color: #0f766e;
+            border: 2px solid #065f5b;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            font-weight: 700;
-            color: #01a982;
+            font-size: 13px;
+            font-weight: bold;
         }
 
         .nav-links {
             display: flex;
-            gap: 32px;
-            align-items: center;
+            gap: 22px;
         }
 
         .nav-links a {
-            color: white;
+            color: #e6fffa;
             text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: opacity 0.3s ease;
+            font-size: 13px;
         }
 
         .nav-links a:hover {
-            opacity: 0.8;
+            text-decoration: underline;
         }
 
         .menu-toggle {
@@ -84,103 +82,92 @@
             color: white;
             font-size: 24px;
             cursor: pointer;
-            padding: 4px;
         }
 
-        /* Main Content */
+        /* ================= MAIN ================= */
         .main-container {
-            padding: 2rem;
+            padding: 1.8rem;
         }
 
         h1 {
             text-align: center;
+            font-size: 20px;
             margin-bottom: 1rem;
-            color: #01A982;
+            color: #0f766e;
+            letter-spacing: 1px;
         }
 
-        /* Search & Filter */
+        /* ================= CONTROLS ================= */
         .controls {
             max-width: 900px;
-            margin: 0 auto 1.5rem auto;
+            margin: 0 auto 1.2rem;
             display: flex;
-            justify-content: space-between;
-            gap: 1rem;
+            gap: 12px;
             flex-wrap: wrap;
+            justify-content: space-between;
         }
 
-        .controls input, .controls select {
-            padding: 0.5rem 1rem;
-            font-size: 0.95rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        .controls input,
+        .controls select {
+            padding: 8px 10px;
+            font-size: 13px;
+            border: 1px solid #999;
+            background: #ffffff;
             width: 100%;
-            max-width: 200px;
+            max-width: 220px;
         }
 
-        table { 
-            border-collapse: collapse; 
-            width: 100%; 
+        /* ================= TABLE ================= */
+        table {
+            width: 100%;
             max-width: 900px;
-            margin: 0 auto; 
-            background: white; 
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: auto;
+            border-collapse: collapse;
+            background: #ffffff;
+            border: 1px solid #999;
         }
 
-        th, td { 
-            border: 1px solid #ddd; 
-            padding: 12px; 
-            text-align: center; 
-            font-size: 0.95rem;
+        th, td {
+            border: 1px solid #999;
+            padding: 10px;
+            font-size: 13px;
+            text-align: center;
         }
 
-        th { 
-            background-color: #01A982; 
-            color: white; 
-            font-weight: 600;
-        }
-
-        tr:nth-child(even) { 
-            background-color: #f9f9f9; 
-        }
-
-        tr:hover { 
-            background-color: #e0f7f1; 
-        }
-
-        .delete-btn {
-            background: #dc2626;
+        th {
+            background: #0f766e;
             color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background: #f4fdfc;
+        }
+
+        /* ================= BUTTONS ================= */
+        .delete-btn {
+            background: #7f1d1d;
+            color: white;
+            border: 1px solid #5f1414;
+            padding: 4px 10px;
+            font-size: 12px;
             cursor: pointer;
-            font-size: 0.9rem;
-            transition: background 0.3s ease;
         }
 
         .delete-btn:hover {
-            background: #b91c1c;
+            background: #991b1b;
         }
 
-        /* Responsive */
+        /* ================= RESPONSIVE ================= */
         @media (max-width: 768px) {
-            .site-nav {
-                padding: 16px 20px;
-            }
-
             .nav-links {
                 display: none;
                 position: absolute;
-                top: 68px;
+                top: 60px;
                 left: 0;
                 right: 0;
-                background: linear-gradient(135deg, #01a982 0%, #008567 100%);
+                background: #0f766e;
                 flex-direction: column;
-                gap: 0;
-                padding: 8px 0;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             }
 
             .nav-links.active {
@@ -188,222 +175,158 @@
             }
 
             .nav-links a {
-                padding: 16px 32px;
-                width: 100%;
+                padding: 14px 24px;
+                border-top: 1px solid #065f5b;
             }
 
             .menu-toggle {
                 display: block;
             }
 
-            .main-container {
-                padding: 1rem;
-            }
-
             .controls {
                 flex-direction: column;
             }
 
-            .controls input, .controls select {
-                max-width: 100%;
+            table, thead, tbody, th, td, tr {
+                display: block;
             }
 
-            table, thead, tbody, th, td, tr { 
-                display: block; 
-            }
-
-            thead tr {
+            thead {
                 display: none;
             }
 
-            tr { 
-                margin-bottom: 1rem; 
-                border: 1px solid #ccc;
-                border-radius: 8px;
-                padding: 0.5rem;
+            tr {
+                border: 1px solid #999;
+                margin-bottom: 12px;
+                padding: 6px;
             }
 
-            td { 
-                border: none; 
-                padding: 0.5rem 0; 
-                text-align: right; 
+            td {
+                border: none;
+                text-align: right;
                 position: relative;
+                padding: 6px 0;
             }
 
-            td::before { 
-                content: attr(data-label); 
-                position: absolute; 
-                left: 0; 
-                width: 50%; 
-                padding-left: 0.5rem;
-                font-weight: 600;
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0;
+                font-weight: bold;
                 text-align: left;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .site-nav {
-                padding: 12px 16px;
-            }
-
-            .site-logo {
-                font-size: 18px;
-            }
-
-            .logo-icon {
-                width: 32px;
-                height: 32px;
-                font-size: 12px;
-            }
-
-            h1 {
-                font-size: 1.5rem;
-            }
-
-            th, td {
-                padding: 8px;
-                font-size: 0.85rem;
             }
         }
     </style>
 </head>
+
 <body>
-    <!-- Header Navigation -->
-    <header class="site-header">
-        <nav class="site-nav">
-            <a href="/dashboard" class="site-logo">
-                <div class="logo-icon">HPE</div>
-                <span>HPE WiFi Portal</span>
-            </a>
 
-            <div class="nav-links" id="navLinks">
-                <a href="/dashboard">Dashboard</a>
-                <a href="/packages">Available Packages</a>
-                <a href="/transactions">Transactions</a>
-                <a href="/vouchers">Vouchers</a>
-                <a href="/account">My Account</a>
-                <a href="/support">Support</a>
-                <a href="/settings">Settings</a>
-                <a href="/logout">Logout</a>
-            </div>
+<header class="site-header">
+    <nav class="site-nav">
+        <a href="/dashboard" class="site-logo">
+            <div class="logo-icon">HPE</div>
+            <span>HPE WiFi Portal</span>
+        </a>
 
-            <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
-                ☰
-            </button>
-        </nav>
-    </header>
+        <div class="nav-links" id="navLinks">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/packages">Packages</a>
+            <a href="/transactions">Transactions</a>
+            <a href="/vouchers">Vouchers</a>
+            <a href="/account">Account</a>
+            <a href="/logout">Logout</a>
+        </div>
 
-    <!-- Main Content -->
-    <div class="main-container">
-        <h1>VOUCHER LIST</h1>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+    </nav>
+</header>
 
-        <!-- Search and Filter Controls -->
-        <div class="controls">
-            <input type="text" id="searchInput" placeholder="Search by Voucher Code..." onkeyup="filterTable()">
-           <select id="packageFilter" onchange="filterTable()">
+<div class="main-container">
+    <h1>VOUCHER LIST</h1>
+
+    <div class="controls">
+        <input type="text" id="searchInput" placeholder="Search Voucher Code..." onkeyup="filterTable()">
+
+        <select id="packageFilter" onchange="filterTable()">
             <option value="">All Packages</option>
             {% for package in packages %}
                 <option value="{{ package.package }}">{{ package.package }}</option>
             {% endfor %}
         </select>
-            <select id="usedFilter" onchange="filterTable()">
-                <option value="">All Status</option>
-                <option value="Yes">Used</option>
-                <option value="No">Unused</option>
-            </select>
-        </div>
 
-        <!-- Voucher Table -->
-        <table id="voucherTable">
-            <thead>
-                <tr>
-                    <th>Voucher Code</th>
-                    <th>Package</th>
-                    <th>Created At</th>
-                    <th>Used</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-        {% for voucher in vouchers %}
-        <tr>
-            <td data-label="Voucher Code">{{ voucher.voucher_code }}</td>
-            <td data-label="Package">{{ voucher.package }}</td>
-            <td data-label="Created At">{{ voucher.created_at|date:"Y-m-d H:i" }}</td>
-            <td data-label="Used">{{ voucher.used|yesno:"Yes,No" }}</td>
-            <td data-label="Action">
-                <form method="post" action="{% url 'delete_voucher' voucher.id %}" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" style="background:#dc2626; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">
-                        Delete
-                    </button>
-                </form>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="5">No vouchers found.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-
-        </table>
+        <select id="usedFilter" onchange="filterTable()">
+            <option value="">All Status</option>
+            <option value="Yes">Used</option>
+            <option value="No">Unused</option>
+        </select>
     </div>
 
-    <script>
-        // Mobile menu toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
+    <table id="voucherTable">
+        <thead>
+            <tr>
+                <th>Voucher Code</th>
+                <th>Package</th>
+                <th>Created At</th>
+                <th>Used</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for voucher in vouchers %}
+            <tr>
+                <td data-label="Voucher Code">{{ voucher.voucher_code }}</td>
+                <td data-label="Package">{{ voucher.package }}</td>
+                <td data-label="Created At">{{ voucher.created_at|date:"Y-m-d H:i" }}</td>
+                <td data-label="Used">{{ voucher.used|yesno:"Yes,No" }}</td>
+                <td data-label="Action">
+                    <form method="post" action="{% url 'delete_voucher' voucher.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">No vouchers found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+<script>
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+
+    menuToggle.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
+    });
+
+    function filterTable() {
+        const search = document.getElementById("searchInput").value.toUpperCase();
+        const pkg = document.getElementById("packageFilter").value;
+        const used = document.getElementById("usedFilter").value;
+
+        const rows = document.querySelectorAll("#voucherTable tbody tr");
+
+        rows.forEach(row => {
+            const cells = row.querySelectorAll("td");
+            if (!cells.length) return;
+
+            const code = cells[0].innerText.toUpperCase();
+            const packageName = cells[1].innerText;
+            const usedStatus = cells[3].innerText;
+
+            let visible = true;
+
+            if (search && !code.includes(search)) visible = false;
+            if (pkg && packageName !== pkg) visible = false;
+            if (used && usedStatus !== used) visible = false;
+
+            row.style.display = visible ? "" : "none";
         });
+    }
+</script>
 
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.site-nav')) {
-                navLinks.classList.remove('active');
-            }
-        });
-
-        // Filter table function
-        function filterTable() {
-            const searchInput = document.getElementById('searchInput').value.toUpperCase();
-            const packageFilter = document.getElementById('packageFilter').value;
-            const usedFilter = document.getElementById('usedFilter').value;
-            const table = document.getElementById('voucherTable');
-            const rows = table.getElementsByTagName('tr');
-
-            for (let i = 1; i < rows.length; i++) {
-                const cells = rows[i].getElementsByTagName('td');
-                const voucherCode = cells[0].textContent.toUpperCase();
-                const packageName = cells[1].textContent;
-                const usedStatus = cells[3].textContent;
-
-                let showRow = true;
-
-                if (searchInput && !voucherCode.includes(searchInput)) {
-                    showRow = false;
-                }
-
-                if (packageFilter && packageName !== packageFilter) {
-                    showRow = false;
-                }
-
-                if (usedFilter && usedStatus !== usedFilter) {
-                    showRow = false;
-                }
-
-                rows[i].style.display = showRow ? '' : 'none';
-            }
-        }
-
-        // Delete voucher function
-        function deleteVoucher(id) {
-            if (confirm('Are you sure you want to delete this voucher?')) {
-                alert('Voucher ' + id + ' deleted successfully.');
-            }
-        }
-    </script>
 </body>
 </html>
