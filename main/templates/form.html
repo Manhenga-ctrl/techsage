@@ -1,271 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HPE WiFi Portal – Upload Vouchers</title>
+{% extends "base.html" %}
+{% block title %}Upload Vouchers - HPE WiFi Portal{% endblock %}
 
-<style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: #f5f5f5;
-        color: #425563;
-    }
+{% block content %}
+<h1>Upload Voucher CSV</h1>
 
-    /* ================= HEADER ================= */
-    .site-header {
-        background: #0f766e;
-        border-bottom: 3px solid #065f5b;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-    }
+<div class="card">
+    <h2>CSV Format Requirements</h2>
+    <div class="format-info">
+        <h3>Required CSV Structure:</h3>
+        <ul>
+            <li>File must be in <code>.csv</code> format</li>
+            <li>First row must contain column headers</li>
+            <li>Required columns: <code>VOUCHER_CODE</code>, <code>PACKAGES</code></li>
+            <li>Packages allowed: <code>1GB</code>, <code>5GB</code></li>
+        </ul>
 
-    .site-nav {
-        max-width: 1200px;
-        margin: auto;
-        padding: 14px 24px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .site-logo {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: #ffffff;
-        text-decoration: none;
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    .logo-icon {
-        width: 34px;
-        height: 34px;
-        background: #ffffff;
-        color: #0f766e;
-        border: 2px solid #065f5b;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 13px;
-        font-weight: bold;
-    }
-
-    .nav-links {
-        display: flex;
-        gap: 18px;
-        flex-wrap: wrap;
-    }
-
-    .nav-links a {
-        color: #e6fffa;
-        text-decoration: none;
-        font-size: 13px;
-        font-weight: 600;
-    }
-
-    .nav-links a:hover {
-        text-decoration: underline;
-    }
-
-    .menu-toggle { display: none; }
-
-    /* ================= MAIN ================= */
-    .main-container {
-        max-width: 1000px;
-        margin: 2rem auto;
-        padding: 1rem;
-    }
-
-    h1 {
-        text-align: center;
-        margin-bottom: 2rem;
-        color: #0f766e;
-        letter-spacing: 1px;
-    }
-
-    .card {
-        background: #ffffff;
-        border-radius: 10px;
-        padding: 2rem;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        margin-bottom: 1.5rem;
-    }
-
-    .card h2 {
-        color: #0f766e;
-        margin-bottom: 1rem;
-        font-size: 1.5rem;
-        border-bottom: 3px solid #01A982;
-        padding-bottom: 0.5rem;
-    }
-
-    /* ===== INFO BOX ===== */
-    .format-info {
-        background-color: #f0fdf9;
-        border-left: 4px solid #01A982;
-        padding: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .format-info h3 {
-        color: #01A982;
-        margin-bottom: 0.75rem;
-        font-size: 1.1rem;
-    }
-
-    .format-info ul {
-        margin-left: 1.5rem;
-        line-height: 1.8;
-    }
-
-    .format-info code {
-        background-color: #e5e7eb;
-        padding: 2px 6px;
-        border-radius: 3px;
-        font-family: monospace;
-        font-size: 0.9rem;
-    }
-
-    .example-box {
-        background-color: #425563;
-        color: #ffffff;
-        padding: 1rem;
-        border-radius: 4px;
-        margin-top: 1rem;
-        font-family: monospace;
-        font-size: 0.9rem;
-        overflow-x: auto;
-    }
-
-    /* ===== FORM ===== */
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-    }
-
-    .form-group input[type="file"] {
-        width: 100%;
-        padding: 0.75rem;
-        border: 2px solid #e5e7eb;
-        border-radius: 4px;
-        font-size: 1rem;
-    }
-
-    .form-group input[type="file"]:focus {
-        outline: none;
-        border-color: #01A982;
-    }
-
-    button[type="submit"] {
-        background-color: #01A982;
-        color: white;
-        padding: 0.875rem 2rem;
-        border: none;
-        border-radius: 4px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.2s;
-    }
-
-    button[type="submit"]:hover {
-        background-color: #018c6f;
-    }
-
-    /* ===== MESSAGES ===== */
-    .message {
-        padding: 1rem;
-        border-radius: 4px;
-        margin-bottom: 1.5rem;
-    }
-
-    .message.success {
-        background-color: #f0fdf9;
-        border-left: 4px solid #01A982;
-        color: #01A982;
-    }
-
-    .message.error {
-        background-color: #fef2f2;
-        border-left: 4px solid #dc2626;
-        color: #dc2626;
-    }
-</style>
-</head>
-
-<body>
-
-<!-- ================= HEADER ================= -->
-<header class="site-header">
-    <nav class="site-nav">
-        <a href="/dashboard" class="site-logo">
-            <div class="logo-icon">HPE</div>
-            <span>HPE WiFi Portal</span>
-        </a>
-
-        <div class="nav-links">
-            <a href="/upload-vouchers">Upload Voucher</a>
-            <a href="/vouchers">Voucher List</a>
-            <a href="/sync-mikrotik">Sync Mikrotik</a>
-            <a href="/dashboard">Dashboard</a>
-        </div>
-    </nav>
-</header>
-
-<div class="main-container">
-    <h1>UPLOAD VOUCHERS</h1>
-
-    <!-- CSV FORMAT INFO -->
-    <div class="card">
-        <h2>CSV Format Requirements</h2>
-        <div class="format-info">
-            <h3>Required CSV Structure:</h3>
-            <ul>
-                <li>File must be in <code>.csv</code> format</li>
-                <li>First row must contain column headers</li>
-                <li>Required columns: <code>VOUCHER_CODE</code>, <code>PACKAGES</code></li>
-                <li>Packages allowed: <code>1GB</code>, <code>5GB</code></li>
-            </ul>
-
-            <div class="example-box">
+        <div class="example-box">
 VOUCHER_CODE,PACKAGES
 VCH001,1GB
 VCH002,5GB
 VCH003,1GB
-            </div>
         </div>
     </div>
-
-    <!-- UPLOAD FORM -->
-    <div class="card">
-        <h2>Upload Voucher CSV</h2>
-
-        {% if message %}
-            <div class="message {{ message_type }}">
-                {{ message }}
-            </div>
-        {% endif %}
-
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-group">
-                <label>Select CSV File</label>
-                {{ form.as_p }}
-            </div>
-            <button type="submit">Upload Vouchers</button>
-        </form>
-    </div>
-
 </div>
 
-</body>
-</html>
+<div class="card">
+    <h2>Upload CSV File</h2>
+
+    {% if message %}
+        <div class="message {{ message_type }}">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Select CSV File</label>
+            {{ form.as_p }}
+        </div>
+        <button type="submit">Upload Vouchers</button>
+    </form>
+</div>
+{% endblock %}
