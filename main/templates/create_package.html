@@ -3,19 +3,91 @@
 {% block title %}Create Package{% endblock %}
 
 {% block content %}
-<div class="card">
+<div class="card vintage-emerald-card">
     <h2>Create Package</h2>
 
     <form method="POST">
         {% csrf_token %}
 
-        <input type="text" name="package" placeholder="Package Name" required>
+        <div class="form-group">
+            <input type="text" name="package" placeholder="Package Name" required class="vintage-input">
+        </div>
 
-        <input type="text" name="value" placeholder="Value (e.g 5GB)" required>
+        <div class="form-group">
+            <input type="text" name="value" placeholder="Value (e.g 5GB)" required class="vintage-input">
+        </div>
 
-        <input type="number" step="0.01" name="amount" placeholder="Price" required>
+        <div class="form-group">
+            <input type="number" step="0.01" name="amount" placeholder="Price" required class="vintage-input">
+        </div>
 
-        <button type="submit">Create Package</button>
+        <button type="submit" class="vintage-btn">Create Package</button>
     </form>
 </div>
+
+<style>
+/* ===== VINTAGE EMERALD FORM STYLES ===== */
+.vintage-emerald-card {
+    max-width: 450px;
+    margin: 20px auto;
+    padding: 28px;
+    background: #f0fdfa; /* light emerald background */
+    border: 2px solid #0f766e; /* emerald border */
+    border-radius: 8px;
+    box-shadow: inset 0 0 0 1px #ccfbf1, 0 8px 20px rgba(0,0,0,0.15);
+    font-family: "Georgia", "Times New Roman", serif;
+    color: #134e4a; /* dark emerald text */
+}
+
+.vintage-emerald-card h2 {
+    text-align: center;
+    margin-bottom: 22px;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: #0f766e;
+}
+
+.vintage-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #0f766e; /* emerald border */
+    border-radius: 6px;
+    background: #e0f7f5; /* pale emerald background */
+    font-size: 16px;
+    font-family: "Courier New", monospace;
+    text-align: center;
+    letter-spacing: 1.5px;
+    color: #064e3b; /* dark emerald text */
+    margin-bottom: 14px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.vintage-input:focus {
+    outline: none;
+    border-color: #065f46; /* darker emerald on focus */
+    background: #f0fffd;
+    box-shadow: 0 0 5px rgba(6, 95, 70, 0.3);
+}
+
+.vintage-btn {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #064e3b;
+    border-radius: 6px;
+    background: linear-gradient(to bottom, #0f766e, #065f46); /* emerald gradient */
+    color: #f0fdfa;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.vintage-btn:hover {
+    background: linear-gradient(to bottom, #16a34a, #065f46); /* brighter emerald on hover */
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+</style>
 {% endblock %}
