@@ -4,6 +4,142 @@
 {% block content %}
 <h1>Upload Voucher CSV</h1>
 
+<style>
+
+/* General page styles */
+body {
+    font-family: "Georgia", "Times New Roman", serif;
+    background: #f3f7f5;
+    color: #1f2d2a;
+    padding: 20px;
+}
+
+/* Card styling */
+.card {
+    background: #fffefb;
+    border: 2px solid #6ea79a;
+    border-radius: 6px;
+    box-shadow: 4px 4px 0 #6ea79a;
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+/* Card headings */
+.card h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #046c4e;
+    margin-bottom: 16px;
+}
+
+/* CSV format info */
+.format-info h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.format-info ul {
+    margin-left: 20px;
+    margin-bottom: 12px;
+}
+
+.format-info ul li {
+    margin-bottom: 6px;
+}
+
+/* Example box */
+.example-box {
+    background: #f1f8f6;
+    border: 2px solid #6ea79a;
+    padding: 12px;
+    border-radius: 4px;
+    font-family: monospace;
+    white-space: pre;
+    color: #1f2d2a;
+    margin-top: 10px;
+}
+
+/* Form styling */
+.form-group {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+input[type="file"] {
+    display: block;
+    padding: 8px;
+    border: 2px solid #8fbfb2;
+    border-radius: 4px;
+    background: #f9fdfb;
+    width: 100%;
+    font-family: "Georgia", serif;
+    font-size: 14px;
+}
+
+input[type="file"]:focus {
+    outline: none;
+    border-color: #046c4e;
+    background: #ffffff;
+}
+
+/* Buttons */
+button {
+    padding: 12px 20px;
+    background: #046c4e;
+    color: #fff;
+    border: 2px solid #034f39;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #03543f;
+}
+
+/* Messages */
+.message {
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.message.success {
+    background: #ecfdf5;
+    border: 2px solid #047857;
+    color: #065f46;
+}
+
+.message.error {
+    background: #fef2f2;
+    border: 2px solid #991b1b;
+    color: #7f1d1d;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+    .card {
+        padding: 16px;
+    }
+
+    button {
+        width: 100%;
+        font-size: 15px;
+    }
+}
+</style>
+
+
+
+
 <div class="card">
     <h2>CSV Format Requirements</h2>
     <div class="format-info">
