@@ -23,7 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Security
 # -----------------------------
 # Keep this secret key safe in production!
+
 SECRET_KEY = config('SECRET_KEY')
+
 
 # Set to False in production
 DEBUG = False
