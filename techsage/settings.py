@@ -28,13 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # Set to False in production
 DEBUG = False
 
-ALLOWED_HOSTS = [
-    'techsage.linus.co.zw',
-    'www.techsage.linus.co.zw',
-    '127.0.0.1',
-    'localhost'
-]
-
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 # -----------------------------
 # Installed Apps
 # -----------------------------
