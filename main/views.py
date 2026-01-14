@@ -128,7 +128,7 @@ def api_payment(request):
 
 # Retrieve voucher based on package
 
-    time.sleep(10)  
+    time.sleep(15)  
     
 
      
