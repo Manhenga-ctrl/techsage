@@ -128,7 +128,7 @@ def api_payment(request):
 
 # Retrieve voucher based on package
 
-    time.sleep(15)  # Simulate waiting time for payment processing  
+    time.sleep(12)  # Simulate waiting time for payment processing  
     
 
      
