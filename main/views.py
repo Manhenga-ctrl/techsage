@@ -252,7 +252,7 @@ def delete_transaction(request, source_reference):
 @login_required(login_url="login")
 def dashboard(request):
     
-    return render(request, "dashboard.html")
+    return render(request, "dashboard/dashboard.html")
 
 
 
