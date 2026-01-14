@@ -31,6 +31,13 @@ API_KEY=config("API_KEY")
 payment_processor = EcoCashPayment()
 
 
+def account(request):
+    return render(request, "dashboard/account.html")
+
+def settings(request):
+    return render(request, "dashboard/settings.html")
+
+
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
